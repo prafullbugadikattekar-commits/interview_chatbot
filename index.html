@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Engineer Interview Prep</title>
+  <meta name="description" content="AI Engineer Interview Prep - Top-Tier Mock Interview Platform covering Transformers, PyTorch, RAG, AI Agents, and vLLM Inference Optimization.">
+  
+  <!-- Modern Engineering Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Design System Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Ambient Background Lighting -->
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="header">
+      <div class="brand-wrapper">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>
+            INTERVIEW PREP 
+            <span class="ai-pill">AI ENGINEER</span>
+          </h1>
+          <p>Top-Tier Mock Interview Platform • Transformers, RAG, AI Agents &amp; vLLM Systems</p>
+        </div>
+      </div>
+
+      <div class="header-status">
+        <span class="status-pulse"></span>
+        <span class="status-text">AI Inference Active</span>
+      </div>
+    </header>
+
+    <!-- Main Interview Interface -->
+    <main class="interview-layout">
+      <div class="interview-main">
+        <!-- Mode & Session Control Bar -->
+        <div class="mode-bar">
+          <div class="mode-selector">
+            <button id="btn-mode-gui" class="mode-pill active" title="Switch to Modern Web GUI">🎙️ Modern GUI</button>
+            <button id="btn-mode-term" class="mode-pill" title="Switch to AI Dev Console">💻 AI Dev Console</button>
+          </div>
+
+          <div class="session-config">
+            <label for="track-select">Domain:</label>
+            <select id="track-select">
+              <option value="1">1. LLMs &amp; Transformers (PyTorch, Attention, LoRA)</option>
+              <option value="2">2. Advanced RAG &amp; Vector Retrieval (Embeddings, RRF)</option>
+              <option value="3">3. AI Agents &amp; Function Calling (ReAct, Evals)</option>
+              <option value="4">4. ML Systems &amp; Inference (vLLM, KV Cache)</option>
+            </select>
+
+            <label for="candidate-name-input">Candidate:</label>
+            <input type="text" id="candidate-name-input" value="Candidate" placeholder="Your Name" style="width: 120px;">
+
+            <button id="btn-start-session" class="btn-primary" style="padding: 0.45rem 0.95rem;">
+              Restart Session
+            </button>
+          </div>
+        </div>
+
+        <!-- MODE A: Modern Web GUI -->
+        <div id="gui-mode-container" class="gui-container">
+          <div class="gui-header">
+            <div class="candidate-badge-group">
+              <div class="avatar-bot">AI</div>
+              <div class="candidate-info">
+                <h3 id="gui-track-title">LLMs &amp; Transformer Architectures</h3>
+                <p id="gui-active-model">Principal AI Systems Evaluator</p>
+              </div>
+            </div>
+
+            <div class="rounds-indicator" id="rounds-indicator">
+              <span style="font-size: 0.8rem; color: var(--text-muted); margin-right: 0.5rem;">Round:</span>
+              <div class="round-dot active" title="Round 1"></div>
+              <div class="round-dot" title="Round 2"></div>
+              <div class="round-dot" title="Round 3"></div>
+            </div>
+          </div>
+
+          <!-- Messages Stream -->
+          <div id="chat-messages" class="chat-messages">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- GUI Input Footer -->
+          <div class="gui-footer">
+            <button id="btn-voice-input" class="btn-icon" title="Dictate answer with Microphone (Speech-to-Text)">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z" />
+              </svg>
+            </button>
+
+            <div class="gui-input-wrapper">
+              <textarea id="gui-user-input" rows="1" placeholder="Type your technical analysis or Python/PyTorch code solution (Shift+Enter for newline, Enter to send)..." autocomplete="off"></textarea>
+              <div class="gui-input-tools">
+                <button type="button" id="btn-insert-template" class="btn-tool-pill" title="Insert Python code template">
+                  &lt;/&gt; Python Code Template
+                </button>
+              </div>
+            </div>
+
+            <button id="btn-speak-toggle" class="btn-icon" title="Toggle AI Audio Voice (Text-to-Speech)">
+              <svg id="speak-icon-on" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              </svg>
+            </button>
+
+            <button id="btn-gui-send" class="btn-primary" style="height: fit-content; align-self: center;">
+              Send Answer
+            </button>
+          </div>
+        </div>
+
+        <!-- MODE B: AI Dev Console Emulator -->
+        <div id="terminal-mode-container" class="terminal-container">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <div class="dot red"></div>
+              <div class="dot yellow"></div>
+              <div class="dot green"></div>
+            </div>
+            <div class="terminal-title">ai_engineer_eval_session (PyTorch / Production GenAI Environment)</div>
+            <div style="font-size: 0.7rem; color: #64748b; font-family: var(--font-mono);">Python 3.12 / CUDA 12.4</div>
+          </div>
+
+          <div id="terminal-body" class="terminal-body">
+            <!-- Dynamically populated command-line text -->
+          </div>
+
+          <div class="terminal-input-row">
+            <span id="term-input-prefix">AI_Candidate&gt;</span>
+            <input type="text" id="term-user-input" placeholder="Type solution or analysis and press Enter..." autocomplete="off">
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar: AI Competencies & Live Telemetry -->
+      <aside class="sidebar-oop">
+        <!-- AI Engineer Competencies Status -->
+        <div class="card">
+          <div class="card-title">
+            <span>🧠 AI Core Competencies</span>
+            <span class="card-badge">Industry 2026</span>
+          </div>
+          <div class="pillar-status-list">
+            <div class="pillar-item">
+              <div class="pillar-name">
+                <span style="color: var(--accent-indigo);">●</span> Transformers &amp; Attention
+              </div>
+              <div class="pillar-chip">PyTorch / GQA</div>
+            </div>
+            <div class="pillar-item">
+              <div class="pillar-name">
+                <span style="color: var(--accent-cyan);">●</span> Advanced RAG &amp; Retrieval
+              </div>
+              <div class="pillar-chip">Hybrid RRF / Vector DB</div>
+            </div>
+            <div class="pillar-item">
+              <div class="pillar-name">
+                <span style="color: var(--accent-emerald);">●</span> Agents &amp; Tool Calling
+              </div>
+              <div class="pillar-chip">ReAct / LangGraph</div>
+            </div>
+            <div class="pillar-item">
+              <div class="pillar-name">
+                <span style="color: var(--accent-amber);">●</span> Inference &amp; Serving
+              </div>
+              <div class="pillar-chip">vLLM / KV Cache</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-Time Evaluation Telemetry -->
+        <div class="card">
+          <div class="card-title">
+            <span>⚡ Technical Telemetry</span>
+            <span class="card-badge" id="event-count-badge">0 events</span>
+          </div>
+          <div class="event-log-feed" id="oop-event-feed">
+            <div class="event-entry polymorphism">
+              <div class="event-header">
+                <span class="event-pillar">[System] Engine Ready</span>
+                <span class="event-time">Active</span>
+              </div>
+              <div class="event-msg">AI Engineering technical interview rubric initialized. Ready for candidate evaluation.</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <strong>Interview Prep</strong> • Industry Standard AI Engineer Technical Preparation<br>
+        Evaluating Deep Learning, Transformers, Production RAG, Agents &amp; Inference Systems
+      </p>
+    </footer>
+  </div>
+
+  <!-- Main Application Logic & AI Interview Integration -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
