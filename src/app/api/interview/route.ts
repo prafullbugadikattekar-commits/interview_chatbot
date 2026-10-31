@@ -470,30 +470,43 @@ CRITICAL: Return ONLY a valid JSON object with this exact format:
 // ============================================================================
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const role = searchParams.get('role') || 'Software Engineer (DSA)';
-  const level = searchParams.get('level') || 'Mid-Level';
+  try {
+    const { searchParams } = new URL(request.url);
+    const role = searchParams.get('role') || 'Software Engineer (DSA)';
+    const level = searchParams.get('level') || 'Mid-Level';
 
-  // Read API keys from server environment (.env)
-  const groqKey = (process.env.GROQ_API_KEY || '').trim();
-  const geminiKey = (process.env.GEMINI_API_KEY || '').trim();
+    // Read API keys from server environment (.env)
+    const groqKey = (process.env.GROQ_API_KEY || '').trim();
+    const geminiKey = (process.env.GEMINI_API_KEY || '').trim();
 
-  // Dynamically generate opening question using .env key if available
-  const aiQuestion = await generateInitialQuestion(role, level, groqKey, geminiKey);
+    // Dynamically generate opening question using .env key if available
+    let aiQuestion: QuestionItem | null = null;
+    try {
+      aiQuestion = await generateInitialQuestion(role, level, groqKey, geminiKey);
+    } catch (err) {
+      console.warn('AI question generation failed, using fallback:', err);
+    }
 
-  const bank = getQuestionsForRole(role);
-  const initialQuestion = aiQuestion || bank[0] || {
-    id: 1,
-    topic: 'Introduction & Technical Overview',
-    questionText: `Welcome to your mock interview for the ${role} (${level}) position. Could you introduce yourself and walk me through your technical background and key projects?`,
-  };
+    const bank = getQuestionsForRole(role);
+    const initialQuestion = aiQuestion || bank[0] || {
+      id: 1,
+      topic: 'Introduction & Technical Overview',
+      questionText: `Welcome to your mock interview for the ${role} (${level}) position. Could you introduce yourself and walk me through your technical background and key projects?`,
+    };
 
-  return NextResponse.json({
-    question: initialQuestion,
-    totalQuestions: bank.length,
-    role,
-    level,
-  });
+    return NextResponse.json({
+      question: initialQuestion,
+      totalQuestions: bank.length,
+      role,
+      level,
+    });
+  } catch (error) {
+    console.error('GET /api/interview error:', error);
+    return NextResponse.json(
+      { error: 'Failed to initialize interview session' },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(request: NextRequest) {
