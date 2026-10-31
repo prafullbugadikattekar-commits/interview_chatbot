@@ -107,10 +107,20 @@ export default function IntervueApp() {
     }
   }, [isInterviewActive, loading]);
 
+  // Auto-collapse sidebar on mobile screen size on initial load
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setSidebarOpen(false);
+    }
+  }, []);
+
   // ──────────────────────────────────────────────────────────────────────────
   // Start New Interview
   // ──────────────────────────────────────────────────────────────────────────
   const startNewInterview = async () => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setSidebarOpen(false);
+    }
     setLoading(true);
     setErrorMsg('');
     setShowScorecard(false);
@@ -247,6 +257,9 @@ export default function IntervueApp() {
   // Conclude Interview & Generate Scorecard
   // ──────────────────────────────────────────────────────────────────────────
   const concludeInterview = () => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setSidebarOpen(false);
+    }
     setIsInterviewActive(false);
     generateScorecardSummary(messages);
   };
@@ -338,14 +351,25 @@ export default function IntervueApp() {
   // RENDER
   // ============================================================================
   return (
-    <div className="flex h-screen w-full bg-zinc-950 text-zinc-100 font-sans overflow-hidden">
+    <div className="flex h-screen w-full bg-zinc-950 text-zinc-100 font-sans overflow-hidden relative">
+      {/* Mobile Backdrop Overlay (dismisses sidebar on click and blurs/dims background) */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 md:hidden transition-all duration-300 cursor-pointer"
+          aria-label="Close sidebar overlay"
+        />
+      )}
+
       {/* ────────────────────────────────────────────────────────────────────
-          LEFT SIDEBAR (260px wide, Collapsible)
+          LEFT SIDEBAR (260px wide, Collapsible / Mobile Drawer)
       ──────────────────────────────────────────────────────────────────── */}
       <aside
-        className={`${
-          sidebarOpen ? 'w-[260px]' : 'w-0'
-        } transition-all duration-200 shrink-0 border-r border-zinc-800 bg-zinc-900 flex flex-col justify-between overflow-hidden relative z-20`}
+        className={`fixed md:relative inset-y-0 left-0 z-40 md:z-20 h-full ${
+          sidebarOpen
+            ? 'w-[270px] sm:w-[260px] translate-x-0 shadow-2xl md:shadow-none'
+            : '-translate-x-full md:translate-x-0 md:w-0'
+        } transition-all duration-300 ease-in-out shrink-0 border-r border-zinc-800 bg-zinc-900 flex flex-col justify-between overflow-hidden`}
       >
         <div className="flex flex-col h-full p-4 space-y-5 overflow-y-auto">
           {/* Header Title */}
@@ -492,7 +516,13 @@ export default function IntervueApp() {
       {/* ────────────────────────────────────────────────────────────────────
           MAIN CENTER PANEL (CHATGPT-STYLE INTERFACE)
       ──────────────────────────────────────────────────────────────────── */}
-      <main className="flex-1 flex flex-col h-full bg-zinc-950 relative overflow-hidden">
+      <main
+        className={`flex-1 flex flex-col h-full bg-zinc-950 relative overflow-hidden transition-all duration-300 ${
+          sidebarOpen
+            ? 'blur-sm md:blur-none pointer-events-none md:pointer-events-auto select-none md:select-auto'
+            : ''
+        }`}
+      >
         {/* Top Header Bar */}
         <header className="h-12 border-b border-zinc-800 bg-zinc-950 flex items-center justify-between px-4 shrink-0">
           <div className="flex items-center gap-3">
